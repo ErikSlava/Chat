@@ -3,20 +3,30 @@ let myUser = null;
 let selectedImage = null;
 
 async function loadMe() {
-  const r = await fetch('/api/me');
+  const r = await fetch('/api/me', {credentials: 'same-origin'});
   if (!r.ok) { location.href = '/'; return; }
   myUser = await r.json();
+
   if (myUser.is_admin) document.getElementById('adminBtn').style.display = '';
   document.getElementById('prof-bio').value = myUser.bio || '';
   document.getElementById('prof-webhook').value = myUser.webhook || '';
-  if (myUser.avatar) document.getElementById('avatar-preview').src = myUser.avatar;
+
+  updateAvatarPreview(myUser.avatar);
+}
+
+function updateAvatarPreview(avatarUrl) {
+  const img = document.getElementById('avatar-preview');
+  if (avatarUrl && avatarUrl.trim()) {
+    // Cache-bust para forçar recarregar
+    img.src = avatarUrl + '?t=' + Date.now();
+  } else {
+    img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><circle cx="60" cy="60" r="60" fill="%23ff2e88"/><text x="60" y="78" font-size="50" text-anchor="middle" fill="white">👤</text></svg>';
+  }
 }
 
 async function loadMessages() {
   const r = await fetch('/api/messages');
   const msgs = await r.json();
-  const container = document.getElementById('messages');
-  
   msgs.forEach(m => {
     if (m.id <= lastId) return;
     lastId = m.id;
@@ -29,13 +39,13 @@ function addMessage(m) {
   const div = document.createElement('div');
   const mine = myUser && m.username === myUser.username;
   div.className = 'msg' + (mine ? ' mine' : '');
-  
-  const avatarHTML = m.avatar 
+
+  const avatarHTML = (m.avatar && m.avatar.trim())
     ? `<img class="msg-avatar" src="${m.avatar}">`
     : `<div class="msg-avatar">${m.username[0].toUpperCase()}</div>`;
-  
+
   const time = new Date(m.timestamp + 'Z').toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-  
+
   div.innerHTML = `
     ${avatarHTML}
     <div>
@@ -47,7 +57,7 @@ function addMessage(m) {
       </div>
     </div>
   `;
-  
+
   container.appendChild(div);
   const main = document.getElementById('chatMain');
   main.scrollTop = main.scrollHeight;
@@ -80,17 +90,20 @@ function clearPreview() {
 async function sendMessage() {
   const input = document.getElementById('msg-input');
   const content = input.value.trim();
-  
   if (!content && !selectedImage) return;
-  
+
   const fd = new FormData();
   fd.append('content', content);
   if (selectedImage) fd.append('image', selectedImage);
-  
+
   input.value = '';
   clearPreview();
-  
-  const r = await fetch('/api/messages', {method: 'POST', body: fd});
+
+  const r = await fetch('/api/messages', {
+    method: 'POST',
+    body: fd,
+    credentials: 'same-origin'
+  });
   if (r.ok) loadMessages();
 }
 
@@ -102,12 +115,12 @@ async function updateOnline() {
   const r = await fetch('/api/online');
   const d = await r.json();
   document.getElementById('online-count').textContent = d.count;
-  fetch('/api/ping', {method: 'POST'});
+  fetch('/api/ping', {method: 'POST', credentials: 'same-origin'});
 }
 
 async function doLogout() {
   if (!confirm('Sair do chat?')) return;
-  await fetch('/api/logout', {method: 'POST'});
+  await fetch('/api/logout', {method: 'POST', credentials: 'same-origin'});
   location.href = '/';
 }
 
@@ -129,7 +142,8 @@ async function banUser() {
   const r = await fetch('/api/admin/ban', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({username: target})
+    body: JSON.stringify({username: target}),
+    credentials: 'same-origin'
   });
   const d = await r.json();
   if (d.ok) { alert('✅ Banido'); loadUserList(); }
@@ -144,7 +158,8 @@ async function promoteUser() {
   const r = await fetch('/api/admin/promote', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({username: target, code})
+    body: JSON.stringify({username: target, code}),
+    credentials: 'same-origin'
   });
   const d = await r.json();
   if (d.ok) { alert('⭐ Promovido!'); loadUserList(); }
@@ -152,11 +167,11 @@ async function promoteUser() {
 }
 
 async function loadUserList() {
-  const r = await fetch('/api/admin/list');
+  const r = await fetch('/api/admin/list', {credentials: 'same-origin'});
   if (!r.ok) return;
   const users = await r.json();
   const list = document.getElementById('user-list');
-  list.innerHTML = users.map(u => 
+  list.innerHTML = users.map(u =>
     `<div class="user-item ${u.is_admin ? 'admin' : ''}">
       <span>${u.is_admin ? '⭐ ' : ''}${escapeHtml(u.username)}</span>
       <span style="opacity:.5">#${u.id}</span>
@@ -169,11 +184,11 @@ async function loadUserList() {
   await loadMe();
   await loadMessages();
   await updateOnline();
-  
+
   setInterval(loadMessages, 2000);
   setInterval(updateOnline, 10000);
-  setInterval(() => fetch('/api/ping', {method:'POST'}), 30000);
-  
+  setInterval(() => fetch('/api/ping', {method:'POST', credentials: 'same-origin'}), 30000);
+
   window.addEventListener('beforeunload', () => {
     navigator.sendBeacon('/api/logout');
   });
