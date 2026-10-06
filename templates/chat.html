@@ -4,17 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0f0a1e">
-<title>KwaiChat Global</title>
+<title>VadiaChat Global</title>
 <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body class="chat-body">
-
-<!-- ===== HEADER ===== -->
 <header class="chat-header">
   <div class="header-left">
     <div class="logo-mini">K</div>
     <div>
-      <div class="header-title">KwaiChat Global</div>
+      <div class="header-title">VadiaChat Global</div>
       <div class="online-badge">
         <span class="dot-live"></span>
         <span id="online-count">0</span> online
@@ -22,22 +20,18 @@
     </div>
   </div>
   <div class="header-right">
-    <button class="icon-btn" onclick="toggleProfile()" title="Meu perfil">👤</button>
+    <button class="icon-btn" onclick="toggleProfile()" title="Meu perfil">puta</button>
     <button class="icon-btn" onclick="toggleAdmin()" id="adminBtn" style="display:none" title="Painel Admin">⚙️</button>
-    <button class="icon-btn" onclick="doLogout()" title="Sair">🚪</button>
+    <button class="icon-btn" onclick="doLogout()" title="Sair">Sair</button>
   </div>
 </header>
-
-<!-- ===== ÁREA DE MENSAGENS ===== -->
 <main class="chat-main" id="chatMain">
   <div id="messages" class="messages"></div>
 </main>
 
 <div class="typing-indicator" id="typing-indicator" style="display:none">digitando...</div>
-
-<!-- ===== FOOTER (input) ===== -->
 <footer class="chat-footer">
-  <label class="attach-btn" for="img-input">📷</label>
+  <label class="attach-btn" for="img-input">Foto</label>
   <input type="file" id="img-input" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp" hidden>
 
   <div class="preview-box" id="preview-box" style="display:none">
@@ -48,8 +42,6 @@
   <input type="text" id="msg-input" placeholder="Digite uma mensagem..." autocomplete="off">
   <button class="send-btn" onclick="sendMessage()" type="button">➤</button>
 </footer>
-
-<!-- ===== MODAL PERFIL ===== -->
 <div class="modal" id="profileModal">
   <div class="modal-content">
     <h3>Meu Perfil</h3>
@@ -68,15 +60,13 @@
     <button class="btn-secondary" onclick="toggleProfile()" type="button">Fechar</button>
   </div>
 </div>
-
-<!-- ===== MODAL ADMIN ===== -->
 <div class="modal" id="adminModal">
   <div class="modal-content">
-    <h3>Painel Admin ⚙️</h3>
+    <h3>Painel Admin</h3>
 
     <input type="text" id="admin-target" placeholder="Usuário alvo">
-    <button class="btn-danger" onclick="banUser()" type="button">🔨 Banir (deletar)</button>
-    <button class="btn-primary" onclick="promoteUser()" type="button">⭐ Promover a Admin</button>
+    <button class="btn-danger" onclick="banUser()" type="button">Banir (deletar)</button>
+    <button class="btn-primary" onclick="promoteUser()" type="button">Promover a Admin</button>
 
     <div id="user-list" class="user-list"></div>
 
@@ -85,7 +75,7 @@
 </div>
 
 <div class="credits-footer">
-  💜 <b>Gabriel Designer</b> & <b>Erik Dev</b>
+   <b>Gabriel gay</b> & <b>Erik macho</b>
 </div>
 
 <script src="/static/js/chat.js"></script>
