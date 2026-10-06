@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KwaiChat</title>
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="chat-body">
+
+<header class="chat-header">
+  <div class="header-left">
+    <div class="logo-mini">K</div>
+    <div>
+      <div class="header-title">KwaiChat Global</div>
+      <div class="online-badge"><span class="dot-live"></span><span id="online-count">0</span> online</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="icon-btn" onclick="toggleProfile()">👤</button>
+    <button class="icon-btn" onclick="toggleAdmin()" id="adminBtn" style="display:none">⚙️</button>
+    <button class="icon-btn" onclick="doLogout()">🚪</button>
+  </div>
+</header>
+
+<main class="chat-main" id="chatMain">
+  <div id="messages" class="messages"></div>
+</main>
+
+<div class="typing-indicator" id="typing-indicator" style="display:none">digitando...</div>
+
+<footer class="chat-footer">
+  <label class="attach-btn" for="img-input">📷</label>
+  <input type="file" id="img-input" accept="image/*" hidden>
+  <div class="preview-box" id="preview-box" style="display:none">
+    <img id="preview-img">
+    <button onclick="clearPreview()">✕</button>
+  </div>
+  <input type="text" id="msg-input" placeholder="Digite uma mensagem..." autocomplete="off">
+  <button class="send-btn" onclick="sendMessage()">➤</button>
+</footer>
+
+<!-- Modal Perfil -->
+<div class="modal" id="profileModal">
+  <div class="modal-content">
+    <h3>Meu Perfil</h3>
+    <div class="avatar-edit">
+      <img id="avatar-preview" src="/static/default-avatar.svg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22><circle cx=%2260%22 cy=%2260%22 r=%2260%22 fill=%22%23ff2e88%22/><text x=%2260%22 y=%2275%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22white%22>👤</text></svg>'">
+      <label for="avatar-input" class="avatar-label">Trocar foto</label>
+      <input type="file" id="avatar-input" accept="image/*" hidden>
+    </div>
+    <input type="text" id="prof-bio" placeholder="Sua bio...">
+    <input type="text" id="prof-webhook" placeholder="Webhook Discord (opcional)">
+    <input type="text" id="prof-code" placeholder="Código admin (opcional)">
+    <button class="btn-primary" onclick="saveProfile()">Salvar 💾</button>
+    <button class="btn-secondary" onclick="toggleProfile()">Fechar</button>
+  </div>
+</div>
+
+<!-- Modal Admin -->
+<div class="modal" id="adminModal">
+  <div class="modal-content">
+    <h3>Painel Admin ⚙️</h3>
+    <input type="text" id="admin-target" placeholder="Usuário alvo">
+    <button class="btn-danger" onclick="banUser()">🔨 Banir (deletar)</button>
+    <button class="btn-primary" onclick="promoteUser()">⭐ Promover a Admin</button>
+    <div id="user-list" class="user-list"></div>
+    <button class="btn-secondary" onclick="toggleAdmin()">Fechar</button>
+  </div>
+</div>
+
+<div class="credits-footer">
+  💜 <b>Gabriel Designer</b> & <b>Erik Dev</b>
+</div>
+
+<script src="/static/js/chat.js"></script>
+<script src="/static/js/profile.js"></script>
+</body>
+</html>
