@@ -28,34 +28,28 @@
 <main class="chat-main" id="chatMain">
   <div id="messages" class="messages"></div>
 </main>
-
 <div class="typing-indicator" id="typing-indicator" style="display:none">digitando...</div>
 <footer class="chat-footer">
   <label class="attach-btn" for="img-input">Foto</label>
   <input type="file" id="img-input" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp" hidden>
-
   <div class="preview-box" id="preview-box" style="display:none">
     <img id="preview-img" alt="preview">
     <button onclick="clearPreview()" type="button">✕</button>
   </div>
-
   <input type="text" id="msg-input" placeholder="Digite uma mensagem..." autocomplete="off">
   <button class="send-btn" onclick="sendMessage()" type="button">➤</button>
 </footer>
 <div class="modal" id="profileModal">
   <div class="modal-content">
     <h3>Meu Perfil</h3>
-
     <div class="avatar-edit">
       <img id="avatar-preview" src="" alt="avatar">
       <label for="avatar-input" class="avatar-label">Trocar foto</label>
       <input type="file" id="avatar-input" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp" hidden>
     </div>
-
     <input type="text" id="prof-bio" placeholder="Sua bio..." maxlength="150">
     <input type="text" id="prof-webhook" placeholder="Webhook Discord (opcional)">
     <input type="text" id="prof-code" placeholder="Código admin (opcional)">
-
     <button class="btn-primary" onclick="saveProfile()" type="button">Salvar</button>
     <button class="btn-secondary" onclick="toggleProfile()" type="button">Fechar</button>
   </div>
@@ -63,21 +57,16 @@
 <div class="modal" id="adminModal">
   <div class="modal-content">
     <h3>Painel Admin</h3>
-
     <input type="text" id="admin-target" placeholder="Usuário alvo">
     <button class="btn-danger" onclick="banUser()" type="button">Banir (deletar)</button>
     <button class="btn-primary" onclick="promoteUser()" type="button">Promover a Admin</button>
-
     <div id="user-list" class="user-list"></div>
-
     <button class="btn-secondary" onclick="toggleAdmin()" type="button">Fechar</button>
   </div>
 </div>
-
 <div class="credits-footer">
    <b>Gabriel </b> & <b>Erik</b>
 </div>
-
 <script src="/static/js/chat.js"></script>
 <script src="/static/js/profile.js"></script>
 </body>
